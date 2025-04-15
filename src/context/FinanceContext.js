@@ -19,8 +19,9 @@ export function FinanceProvider({ children }) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Load initial data from localStorage
   useEffect(() => {
-    const loadInitialData = () => {
+    const loadData = () => {
       try {
         setIsLoading(true);
 
@@ -28,15 +29,15 @@ export function FinanceProvider({ children }) {
         const storedTransactions = typeof window !== 'undefined' 
           ? localStorage.getItem('finance_transactions')
           : null;
-        let parsed = storedTransactions ? JSON.parse(storedTransactions) : [];
+        const parsedTransactions = storedTransactions ? JSON.parse(storedTransactions) : [];
 
         // Normalize: convert `_id` to `id` if needed
-        parsed = parsed.map(t => ({
+        const normalizedTransactions = parsedTransactions.map(t => ({
           ...t,
           id: t.id || t._id || Date.now().toString() + Math.random().toString().slice(2),
         }));
 
-        setTransactions(parsed);
+        setTransactions(normalizedTransactions);
 
         // Load budgets
         const storedBudgets = typeof window !== 'undefined'
@@ -53,21 +54,18 @@ export function FinanceProvider({ children }) {
       }
     };
 
-    loadInitialData();
+    loadData();
   }, []);
 
+  // Save transactions and budgets to localStorage whenever they change
   useEffect(() => {
     if (typeof window !== 'undefined') {
       localStorage.setItem('finance_transactions', JSON.stringify(transactions));
-    }
-  }, [transactions]);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
       localStorage.setItem('finance_budgets', JSON.stringify(budgets));
     }
-  }, [budgets]);
+  }, [transactions, budgets]);
 
+  // Add a new transaction
   const addTransaction = (transaction) => {
     try {
       const newTransaction = {
@@ -84,6 +82,7 @@ export function FinanceProvider({ children }) {
     }
   };
 
+  // Delete a transaction
   const deleteTransaction = (id) => {
     try {
       setTransactions(prev => prev.filter(t => t.id !== id));
@@ -94,6 +93,7 @@ export function FinanceProvider({ children }) {
     }
   };
 
+  // Update a budget
   const updateBudget = (category, amount) => {
     try {
       setBudgets(prev => ({ ...prev, [category]: amount }));
@@ -103,6 +103,7 @@ export function FinanceProvider({ children }) {
     }
   };
 
+  // Clear all transactions
   const clearAllTransactions = () => {
     try {
       setTransactions([]);
@@ -131,6 +132,7 @@ export function FinanceProvider({ children }) {
   );
 }
 
+// Custom hook for accessing the context
 export function useFinance() {
   const context = useContext(FinanceContext);
   if (!context) {

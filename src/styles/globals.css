@@ -18,6 +18,25 @@
   --radius-lg: 0.75rem;
 }
 
+/* Dark Mode Overrides */
+body[data-theme="dark"] {
+  --primary: #8b5cf6;
+  --primary-light: #a78bfa;
+  --primary-dark: #7c3aed;
+  --error: #f87171;
+  --success: #34d399;
+  --warning: #fbbf24;
+  --text: #f3f4f6;
+  --text-light: #9ca3af;
+  --background: #111827;
+  --card-bg: #1f2937;
+  --border: #374151;
+  --shadow-sm: 0 1px 2px rgba(255, 255, 255, 0.05);
+  --shadow: 0 1px 3px rgba(255, 255, 255, 0.1);
+  --shadow-md: 0 4px 6px rgba(255, 255, 255, 0.1);
+}
+
+/* Universal styles */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -38,6 +57,7 @@ body {
   display: flex;
   flex-direction: column;
   -webkit-font-smoothing: antialiased;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 #__next {

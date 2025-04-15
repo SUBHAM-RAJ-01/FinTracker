@@ -5,7 +5,6 @@ import styles from './styles.module.css';
 export default function DashboardCard() {
   const { transactions = [], budgets = {} } = useContext(FinanceContext);
 
-  // Calculate totals with proper fallbacks
   const totalSpent = transactions.reduce((sum, t) => sum + (t.amount || 0), 0);
   const totalBudget = Object.values(budgets).reduce((sum, b) => sum + (b || 0), 0);
   const remaining = totalBudget - totalSpent;
@@ -28,7 +27,7 @@ export default function DashboardCard() {
             color: remaining < 0 ? 'var(--error)' : 'var(--success)'
           }}
         >
-          ₹{Math.abs(remaining).toFixed(2)} {remaining < 0 ? 'Over' : 'Left'}
+          ₹{Math.abs(remaining).toFixed(2)} {remaining < 0 ? 'Over' : ' '}
         </p>
       </div>
     </div>
