@@ -1,7 +1,8 @@
 // pages/api/budgets.js
-import { connectToDB } from '../../utils/helpers';  // ✅ fixed path
-import Budget from '../../models/Budget';           // ✅ fixed path
-import { getBudgets, saveBudget } from '../../utils/storage';  // ✅ fixed path
+import { connectToDB } from '../../utils/helpers';
+  
+import Budget from '../../models/Budget';           
+import { getBudgets, saveBudget } from '../../utils/storage';  
 
 export default async function handler(req, res) {
   await connectToDB();  // Ensure the DB is connected

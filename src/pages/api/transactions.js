@@ -1,7 +1,13 @@
 // pages/api/transactions.js
-import { connectToDB } from '../../../utils/helpers';  // Ensure DB is connected
-import Transaction from '../../../models/Transaction';  // Import the Transaction model
-import { getTransactions, saveTransaction, deleteTransaction } from '../../../utils/storage';  // Import MongoDB-based functions
+
+// Ensure the DB is connected
+import { connectToDB } from '../../utils/helpers'; // Correct path to helpers.js
+
+// Import the Transaction model
+import Transaction from '../../models/Transaction'; // Correct path to models/Transaction
+
+// Import MongoDB-based functions for handling transactions
+import { getTransactions, saveTransaction, deleteTransaction } from '../../utils/storage'; // Correct path to storage.js
 
 export default async function handler(req, res) {
   await connectToDB();  // Ensure the DB connection is established

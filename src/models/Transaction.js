@@ -1,4 +1,8 @@
-const mongoose = require('mongoose');
+// src/models/Transaction.js
+import mongoose from 'mongoose';
+
+// Ensure DB connection is established (already handled in utils/helpers.js)
+import { connectToDB } from '../utils/helpers'; // Corrected relative path
 
 const TransactionSchema = new mongoose.Schema({
   amount: {
@@ -31,5 +35,7 @@ const TransactionSchema = new mongoose.Schema({
   timestamps: true
 });
 
-// Check if model exists before compiling
-module.exports = mongoose.models?.Transaction || mongoose.model('Transaction', TransactionSchema);
+// Check if the model exists before compiling to avoid overwriting existing model
+const Transaction = mongoose.models.Transaction || mongoose.model('Transaction', TransactionSchema);
+
+export default Transaction;
